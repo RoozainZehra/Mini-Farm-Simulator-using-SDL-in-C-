@@ -2,7 +2,7 @@
 Relevant instructions can be found in `GRP5_L4.pdf`.
 
 # For Windows/Mac Users
-- Open the `PROJECT_GRP5` folder in VSCode.
+- Open the `OOP-Project-GRP05.main` folder in VSCode.
 - Open VSCode terminal and put this command to compile everything:
 
 	For Windows: `g++ Game_basic_code.cpp -IC:\mingw_dev_lib\include\SDL2 -LC:\mingw_dev_lib\lib -w -lmingw32 -lSDL2main -lSDL2 -lSDL2_image`
