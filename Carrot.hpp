@@ -6,10 +6,11 @@ class Carrot:public Vegetables{
     private:
     int current_stage;
 
+
     public:
-    Carrot();
+    Carrot(SDL_Renderer* gRenderer);
     ~Carrot();
-    void Sell(int qty);
-    void Grow();
-    void Harvest();
+    // void Sell(int qty);
+    // void Grow();
+    // void Harvest();
 };
