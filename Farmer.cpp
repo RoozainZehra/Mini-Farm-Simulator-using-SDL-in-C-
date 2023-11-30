@@ -41,11 +41,16 @@ SDL_Rect Farmer::Get_SDlRECT(){
     return farmerRect;
 }
 
-bool Farmer::checkCollision( SDL_Rect b ){
-    if(farmerRect.x == b.x && farmerRect.y == b.x) {
+bool Farmer::checkCollision(SDL_Rect b) {
+    std::cout << "farmer at x = " << farmer_x << " y = " << farmer_y << std::endl;
+    if ((farmerRect.x < (b.x + b.w) && farmerRect.x + farmerRect.w > b.x) && 
+        (farmerRect.y < (b.y + b.h) && farmerRect.y + farmerRect.h > b.y)) {
+        std::cout << "collision detected" << std::endl;
         return true;
-    }  
-    return false;
+    } else {
+        std::cout << "no collision at x = " << b.x << " and y = " << b.y << std::endl;
+        return false;
+    }
 }
 
 void Farmer::movements(char x){
