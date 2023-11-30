@@ -104,7 +104,7 @@ void Game::run(){
             farmer->out_movement(SCREEN_WIDTH, SCREEN_HEIGHT);
 
             // Update screen
-            SDL_Delay(1000);
+            SDL_Delay(100);
             SDL_RenderPresent(gRenderer);
             
         }
