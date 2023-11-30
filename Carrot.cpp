@@ -9,7 +9,7 @@ Carrot::Carrot( SDL_Renderer* gRenderer, int x){
 
     current_stage = 1;
     creation_time = SDL_GetTicks();  //time of creation
-    std::cout << "carrot created" << std::endl;
+    std::cout << "seed planted" << std::endl;
 }
 
 Carrot::~Carrot(){
@@ -23,9 +23,13 @@ void Carrot::Grow(){
         if (current_stage == 2){
             TextureManager element(Renderer);
             Vegetables::Texture = element.loadTexture("sprout.png");
+            std::cout << "sprout grown" << std::endl;
         }
     }
-    if (current_stage == 3){
+    if (current_stage == 3 && timeElapsed()>=70000){
+        TextureManager element(Renderer);
+        Vegetables::Texture = element.loadTexture("Carrot.png"); 
+        std::cout << "carrot grown" << std::endl;
         Vegetables::grown = 1;
     }
 }
