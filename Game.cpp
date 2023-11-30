@@ -51,6 +51,7 @@ void Game::run(){
     Farmer *farmer = new Farmer(gRenderer);
     Storage *storage = new Storage(gRenderer);
     Marketplace *market = new Marketplace(gRenderer);
+
     while (!quit){
         while (SDL_PollEvent(&e) != 0){
             if (e.type == SDL_QUIT) {
@@ -60,19 +61,18 @@ void Game::run(){
             farm->farmRender(gRenderer);
             land->landRender(gRenderer);
             land->patchRender(gRenderer);
+            land->createVeg(gRenderer, v);
+            for (auto& vegies : v){     
+                uint32_t check = vegies->timeElapsed();
+                if (check >= 30000){
+                    vegies->Grow();
+                }
+                vegies->VegetableRenderer();
+            }
             farmer->farmerRender(gRenderer);
             storage ->storageRender(gRenderer);
             market->marketRender(gRenderer);
-            if (!farm->loadMedia() || !land->loadMedia()){
-                break;
-            }
-            if (!storage->loadMedia()){
-                break;
-            }
-            if (!market->loadMedia()){
-                break;
-            }
-            if (!farmer->loadMedia()){
+            if (!farm->loadMedia() || !land->loadMedia() || !storage->loadMedia() || !market->loadMedia() || !farmer->loadMedia()){
                 break;
             }
             else if (e.type == SDL_KEYDOWN) {
@@ -100,9 +100,14 @@ void Game::run(){
                     std::cout<< "Mouse clicked at X= " <<mouseX << ", Y= "<<mouseY << std::endl;
                 }
             }
+            
             farmer->out_movement(SCREEN_WIDTH, SCREEN_HEIGHT);
+
             // Update screen
+            SDL_Delay(1000);
             SDL_RenderPresent(gRenderer);
+            
         }
+        
     }
 }
