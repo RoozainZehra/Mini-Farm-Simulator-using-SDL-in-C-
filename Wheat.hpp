@@ -1,15 +1,19 @@
+#pragma once
+
 #include <iostream>
 using namespace std;
 #include "Vegetables.hpp"
 
-class Wheat: public Vegetables{
+class Wheat:public Vegetables{
     private:
     int current_stage;
 
+
     public:
-    Wheat();
+    Wheat(SDL_Renderer* gRenderer, int x);
     ~Wheat();
-    void Sell(int qty);
+    uint32_t timeElapsed();
+    // void Sell(int qty);
     void Grow();
-    void Harvest();
+    // void Harvest();
 };
