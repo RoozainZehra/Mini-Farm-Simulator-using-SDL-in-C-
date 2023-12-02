@@ -61,14 +61,15 @@ void Game::run(){
             farm->farmRender(gRenderer);
             land->landRender(gRenderer);
             land->patchRender(gRenderer);
-            land->createVeg(gRenderer, v);
+            
             for (auto& vegies : v){     
                 uint32_t check = vegies->timeElapsed();
                 if (check >= 30000){
-                    vegies->Grow();
+                vegies->Grow();
                 }
                 vegies->VegetableRenderer();
             }
+            
             farmer->farmerRender(gRenderer);
             storage ->storageRender(gRenderer);
             market->marketRender(gRenderer);
@@ -100,11 +101,16 @@ void Game::run(){
                     std::cout<< "Mouse clicked at X= " <<mouseX << ", Y= "<<mouseY << std::endl;
                 }
             }
-            
+            vector<SDL_Rect> patches = land->GetSDLRect();
+            for (auto& patch : patches){
+                if (farmer->checkCollision(patch)){
+                    land->createVeg(gRenderer, v);
+                }
+            }
             farmer->out_movement(SCREEN_WIDTH, SCREEN_HEIGHT);
 
             // Update screen
-            SDL_Delay(100);
+            SDL_Delay(50);
             SDL_RenderPresent(gRenderer);
             
         }
