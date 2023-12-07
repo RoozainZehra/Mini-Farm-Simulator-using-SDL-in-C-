@@ -113,54 +113,70 @@ bool LandPatches::loadMedia(){
     return true;
 }
 
-void LandPatches::createVeg(SDL_Renderer* gRenderer, vector <Vegetables*> &V ){
-    if (p1 && !plantStatus[0]){
-        plantStatus[0] = true;
-        std::cout << "patch 1 planted" << std::endl;
-        Vegetables* c1 = new Carrot(gRenderer, patch1_x);
-        V.push_back(c1);
-    }                                            
-    else if (p2 && !plantStatus[1]){
-        plantStatus[1] = true;
-        Vegetables* c2 = new Carrot(gRenderer, patch2_x);
-        std::cout << "patch 2 planted" << std::endl;
-        V.push_back(c2);
+void LandPatches::createVeg(SDL_Renderer* gRenderer, vector <Vegetables*> &V, SDL_Rect rect ){
+    Storage items;
+    if (items.getAmount('C') >= 1){
+        if (p1 && !plantStatus[0] && rect.x == patch1.x && rect.y == patch1.y){
+            plantStatus[0] = true;
+            std::cout << "patch 1 planted" << std::endl;
+            Vegetables* c1 = new Carrot(gRenderer, patch1_x);
+            V.push_back(c1);
+        }  
+        else if (p4 && !plantStatus[3] && rect.x == patch4.x && rect.y == patch4.y){
+            plantStatus[3] = true;
+            Vegetables* c4 = new Carrot(gRenderer, patch4_x);
+            std::cout << "patch 4 planted" << std::endl;
+            V.push_back(c4);
+        }
+        else if (p7 && !plantStatus[6] && rect.x == patch7.x && rect.y == patch7.y){
+            plantStatus[6] = true;
+            Vegetables* c7 = new Carrot(gRenderer, patch7_x);
+            std::cout << "patch 7 planted" << std::endl;
+            V.push_back(c7);
+        }
+
     }
-    else if (p3){
-        Vegetables* c3 = new Carrot(gRenderer, patch3_x);
-        std::cout << "patch 3 planted" << std::endl;
-        V.push_back(c3);
-    }
-    else if (p4){
-        Vegetables* c4 = new Carrot(gRenderer, patch4_x);
-        std::cout << "patch 4 planted" << std::endl;
-        V.push_back(c4);
-    }
-    else if (p5){
-        Vegetables* c5 = new Carrot(gRenderer, patch5_x);
-        std::cout << "patch 5 planted" << std::endl;
-        V.push_back(c5);
-    }
-    else if (p6){
-        Vegetables* c6 = new Carrot(gRenderer, patch6_x);
-        std::cout << "patch 6 planted" << std::endl;
-        V.push_back(c6);
-    }
-    else if (p7){
-        Vegetables* c7 = new Carrot(gRenderer, patch7_x);
-        std::cout << "patch 7 planted" << std::endl;
-        V.push_back(c7);
-    }
-    else if (p8){
-        Vegetables* c8 = new Carrot(gRenderer, patch8_x);
-        std::cout << "patch 8 planted" << std::endl;
-        V.push_back(c8);
-    }
-    else if (p9){
-        Vegetables* c9 = new Carrot(gRenderer, patch9_x);
-        std::cout << "patch 9 planted" << std::endl;
-        V.push_back(c9);
-    }
+    if (items.getAmount('R') >= 1){
+        if (p2 && !plantStatus[1] && rect.x == patch2.x && rect.y == patch2.y){
+            plantStatus[1] = true;
+            Vegetables* c2 = new Radish(gRenderer, patch2_x);
+            std::cout << "patch 2 planted" << std::endl;
+            V.push_back(c2);
+        }
+        else if (p5 && !plantStatus[4] && rect.x == patch5.x && rect.y == patch5.y){
+            plantStatus[4] = true;
+            Vegetables* c5 = new Radish(gRenderer, patch5_x);
+            std::cout << "patch 5 planted" << std::endl;
+            V.push_back(c5);
+        }
+        else if (p8 && !plantStatus[7] && rect.x == patch8.x && rect.y == patch8.y){
+            plantStatus[7] = true;
+            Vegetables* c8 = new Radish(gRenderer, patch8_x);
+            std::cout << "patch 8 planted" << std::endl;
+            V.push_back(c8);
+        }
+    }    
+    if (items.getAmount('W') >= 1){
+        if (p3 && !plantStatus[2] && rect.x == patch3.x && rect.y == patch3.y){
+            plantStatus[2] = true;
+            Vegetables* c3 = new Wheat(gRenderer, patch3_x);
+            std::cout << "patch 3 planted" << std::endl;
+            V.push_back(c3);
+        }
+        else if (p6 && !plantStatus[5] && rect.x == patch6.x && rect.y == patch6.y){
+            plantStatus[5] = true;
+            Vegetables* c6 = new Wheat(gRenderer, patch6_x);
+            std::cout << "patch 6 planted" << std::endl;
+            V.push_back(c6);
+        }
+        else if (p9 && !plantStatus[8] && rect.x == patch9.x && rect.y == patch9.y){
+            plantStatus[8] = true;
+            Vegetables* c9 = new Wheat(gRenderer, patch9_x);
+            std::cout << "patch 9 planted" << std::endl;
+            V.push_back(c9);
+        }
+    }                                       
+    
 
 }
 
@@ -199,4 +215,8 @@ void LandPatches::UnlockPatch(){
             break;
         }
     }    
+}
+
+void LandPatches::getPatches(vector<SDL_Rect> &p){
+    p = AllPatches;
 }
