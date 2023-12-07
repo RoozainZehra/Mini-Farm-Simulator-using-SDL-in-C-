@@ -27,6 +27,8 @@ bool Game::init() {
     // Set renderer color
     SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
+    flag = false;
+
     return true;
 }
 
@@ -84,8 +86,12 @@ void Game::run() {
                     // Animals* cow = new Cow(gRenderer); // Example: Creating a cow
                     // // cow->setPosition(mouseX, mouseY); // Set the position of the animal
                     // a.push_back(cow); // Add the animal to the vector
+
+                    // Animals* chicken = new Chicken(gRenderer);
+                    // a.push_back(chicken);
                 }
             }
+
         }
 
         // Clear the renderer
@@ -95,7 +101,14 @@ void Game::run() {
         farm->farmRender(gRenderer);
         land->landRender(gRenderer);
         land->patchRender(gRenderer);
-        land->createVeg(gRenderer, v);
+        land->getPatches(P);
+
+        for (auto& patch : P){
+            if (farmer->checkCollision(patch)){
+                land->createVeg(gRenderer, v, patch);
+            }
+        }
+
 
         // farm->getAnimals(gRenderer, a);
         for (auto& vegies : v) {
@@ -117,9 +130,18 @@ void Game::run() {
             animal->AnimalRenderer();
         }
 
+        if (farmer->checkCollision(storage->getSDLRect()) && flag==false){
+            storage->openStorage();
+            flag=true;
+        }
+        else{
+            flag = false;
+        }
+
         farmer->farmerRender(gRenderer);
         storage->storageRender(gRenderer);
         market->marketRender(gRenderer);
+        // farmer->farmerRender(gRenderer);
 
         farmer->out_movement(SCREEN_WIDTH, SCREEN_HEIGHT);
 
