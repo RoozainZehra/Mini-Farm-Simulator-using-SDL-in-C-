@@ -14,13 +14,17 @@
 #include "Marketplace.hpp"
 #include "landPatches.hpp"
 #include "Vegetables.hpp"
+#include "Animals.hpp"
 
 class Game{
     private:
     //Screen dimension constants
     const int SCREEN_WIDTH = 900;
     const int SCREEN_HEIGHT = 650;
+    vector<SDL_Rect> P;
     vector <Vegetables*> v;
+    vector <Animals*> a;
+    bool flag;
     //The window we'll be rendering to
     SDL_Window* gWindow = NULL;
 
