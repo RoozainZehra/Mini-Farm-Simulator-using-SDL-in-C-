@@ -15,6 +15,15 @@ class Storage{
     const int barn_wdt = 150;
     const int barn_x = 390;
     const int barn_y = 32;
+
+    int WIDTH = 600;
+    int HEIGHT = 450;
+
+    //The window we'll be rendering to
+    SDL_Window* StorageWindow = NULL;
+
+    //The window renderer
+    SDL_Renderer* StorageRenderer = NULL;  
     
     SDL_Rect storageRect = { barn_x, barn_y, barn_wdt, barn_ht };
     SDL_Texture* storageTexture = NULL;
@@ -25,7 +34,8 @@ class Storage{
     SDL_Rect leftTrees = {-60, 0, 200, 680};
     SDL_Rect rightTrees = {760, -25, 200, 680};
 
-    int GoldCoins;
+    static int GoldCoins;
+    static int milk, eggs, carrots, wheat, radish, seeds;
     // Seeds seeds;
     // vector<AnimalProducts> Products;
     // vector<HarvestSupplies> Harvest;
@@ -38,6 +48,12 @@ class Storage{
     bool loadMedia();
     SDL_Rect getSDLRect();
 
+    void addMaterial(char Material, int qty);
+
+    int getAmount(char Material);
+
+    void openStorage();
+    bool init();
     // virtual void Store_AnimalProducts(string Animal, int qty);
     // virtual void Store_seeds(int amount);
     // virtual void Store_goldcoins(int amount);
