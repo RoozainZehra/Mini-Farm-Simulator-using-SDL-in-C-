@@ -4,7 +4,11 @@
 using namespace std;
 // #include "Farm.hpp"
 #include "sdlManager.hpp"
+#include "Storage.hpp"
+#include "Vegetables.hpp"
 #include "Carrot.hpp"
+#include "Radish.hpp"
+#include "Wheat.hpp"
 
 class LandPatches{
     private:
@@ -66,9 +70,9 @@ class LandPatches{
     ~LandPatches();
     void landRender(SDL_Renderer* gRenderer);
     void patchRender(SDL_Renderer* gRenderer);
-    void createVeg(SDL_Renderer* gRenderer,vector <Vegetables*> &v );
+    void createVeg(SDL_Renderer* gRenderer,vector <Vegetables*> &v, SDL_Rect rect );
     bool loadMedia();
-
+    void getPatches(vector<SDL_Rect> &p);
     // template <typename T> void PlantVegOnPatch(T Vegetable);
     void UnlockPatch();
 };
