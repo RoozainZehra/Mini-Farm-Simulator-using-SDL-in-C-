@@ -1,5 +1,9 @@
 #include "Vegetables.hpp"
 
+Vegetables::Vegetables(){
+    cout << "vegetables created" << endl;
+}
+
 void Vegetables::VegetableRenderer(){
     SDL_RenderCopy(Renderer, Texture, NULL, &Rect);
 }
@@ -22,9 +26,7 @@ void Vegetables::setVegetables(bool grow, int price, int time, bool harvest){
     growth_time = time;
     harvestStatus = harvest;
 }
-// void Vegetables::SetGrown(){
-//     grown = 1;
-// }
-// void Vegetables::SetHarvest(){
-//     harvestStatus = 1;
-// }
+
+SDL_Rect Vegetables::getRect(){
+    return Rect;
+}
