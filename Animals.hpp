@@ -1,19 +1,34 @@
+#pragma once
+#include "sdlManager.hpp"
 #include <iostream>
 using namespace std;
 
 class Animals{
-    private:
-    int produce_time;
-    int current_time;
+    protected:
+    uint32_t feeding_time;
+    uint32_t produce_time;
+    uint32_t current_time;
+
+    // uint32_t creation_time;
+
+    SDL_Renderer* Renderer = NULL; //window renderer
+    SDL_Texture* Texture = NULL;   //animal texture unique to each animal
+    SDL_Rect Rect;                 //animal dimensions, unique to each animal
+    SDL_Rect moverRect;            //tracks movements of the animal
+
     public:
-    Animals(int time);
+    uint32_t creation_time;
+
+    Animals();
     ~Animals();
-    int getProduceTime();
-    int getCurrentTime();
-    void updateTime();
-    virtual void sell(int qty) = 0;
+    bool loadMedia();
+    void AnimalRenderer();
+
+    virtual uint32_t timeElapsed() = 0;
+    virtual void walk() = 0;
+    // virtual void sell(int qty) = 0;
     virtual void feed() = 0;
     virtual void produce() = 0;
-    virtual void collectProduce() = 0;
+    // virtual void collectProduce() = 0;
     virtual void setHunger() = 0;
 };
