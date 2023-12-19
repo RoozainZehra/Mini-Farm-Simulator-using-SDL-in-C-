@@ -214,10 +214,18 @@ void Game::createStorageWindow(SDL_Window* storageWindow, Storage *storage) {
 
 // Function to initialize the market window
 void Game::createMarketWindow(SDL_Window* marketWindow, SDL_Renderer* Renderer, LandPatches *land, Storage *storage, Marketplace *market) {
+    bool deficit = false;
+    string Message = "NOT ENOUGH MONEY!";
     Animals* animal;
     LandPatches* patch;
     Vegetables* vegetable;
     if (marketWindow == nullptr) {
+        // Initialize SDL_ttf
+        if (TTF_Init() == -1) {
+            std::cerr << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << std::endl;
+            SDL_Quit();
+            return;
+        }
         marketWindow = SDL_CreateWindow("Market Screen", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 500,400, SDL_WINDOW_SHOWN);
         if (marketWindow != nullptr) {
             // Create renderer for market window
@@ -227,65 +235,93 @@ void Game::createMarketWindow(SDL_Window* marketWindow, SDL_Renderer* Renderer, 
                 SDL_Texture* marketImage = loadTexture("market.png", marketRenderer);
                 if (marketImage != nullptr) {
                     bool quitMarket = false;
-                    while (!quitMarket) {
-                        SDL_Event event;
-                        while (SDL_PollEvent(&event)) {
-                            if (event.type == SDL_QUIT) {
-                                quitMarket = true; // Handle SDL_QUIT event to exit the loop
-                            }
-                            // Handle window close event
-                            else if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE) {
-                                quitMarket = true;
-                            }
-                            else if (event.type == SDL_MOUSEBUTTONDOWN){
-                                if (event.button.button == SDL_BUTTON_LEFT){
-                                    int mouseX, mouseY;
-                                    SDL_GetMouseState(&mouseX, &mouseY);
-                                    std::cout << "Market mouse clicked at X= " << mouseX << ", Y= " << mouseY << std::endl;
-                                    if (mouseY >= 162 && mouseY <= 232){
-                                        if (mouseX >= 88 && mouseX <= 130){
-                                            market->sellItems(storage, vegetable, 'W');
-                                        }
-                                        else if (mouseX >= 132 && mouseX <= 185){
-                                            market->sellItems(storage, vegetable, 'R');
-                                        }
-                                        else if (mouseX >= 187 && mouseX <= 225){
-                                            market->sellItems(storage, vegetable, 'C');
-                                        }
-                                        else if (mouseX >= 290 && mouseX <= 355){
-                                            if(market->Purchase(storage, animal, 'E')){
-                                                Animals* chicken = new Chicken(Renderer);
-                                                a.push_back(chicken);
-                                            }
-                                        }
-                                        else if (mouseX >= 360 && mouseX <= 430){
-                                            if(market->Purchase(storage, animal, 'M')){
-                                                Animals* cow = new Cow(Renderer);
-                                                a.push_back(cow);
-                                            }
-                                        }
-                                    }
-                                    else if (mouseY >= 256 && mouseY <= 320){
-                                        if (mouseX >= 105 && mouseX <= 155){
-                                            market->sellItems(storage, animal, 'E');
-                                        }
-                                        else if (mouseX >= 155 && mouseX <= 215){
-                                            market->sellItems(storage, animal, 'M');
-                                        }
-                                        else if (mouseX >= 335 && mouseX <= 390){
-                                            if (market->Purchase(storage, patch, 'P')){
-                                                land->UnlockPatch();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                    // Load the font
+                    TTF_Font* font = TTF_OpenFont("8514oem.fon", 14); 
+                    if (font == nullptr) {
+                        std::cerr << "Failed to load font! SDL_ttf Error: " << TTF_GetError() << std::endl;
+                    } 
+                    else {
+                        SDL_Surface* MessageSurface = TTF_RenderText_Solid(font, Message.c_str(), {0,0,0,0});
+                        if (MessageSurface == nullptr){
+                            std::cerr << "Unable to create text surface! SDL Error: " << SDL_GetError() << std::endl;
                         }
-
-                        // Render the storage image
-                        SDL_RenderClear(marketRenderer);
-                        renderTexture(marketImage, marketRenderer);
-                        SDL_RenderPresent(marketRenderer);
+                        else{
+                            SDL_Texture* MessageTexture = SDL_CreateTextureFromSurface(marketRenderer, MessageSurface);
+                            if (MessageTexture == nullptr){
+                                std::cerr << "Unable to create text texture! SDL Error: " << SDL_GetError() << std::endl;
+                            }
+                            else{
+                                SDL_Rect MessageRect = {160, 370, MessageSurface->w, MessageSurface->h};                       
+                                while (!quitMarket) {
+                                    SDL_Event event;
+                                    while (SDL_PollEvent(&event)) {
+                                        if (event.type == SDL_QUIT) {
+                                            quitMarket = true; // Handle SDL_QUIT event to exit the loop
+                                        }
+                                        // Handle window close event
+                                        else if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE) {
+                                            quitMarket = true;
+                                        }
+                                        else if (event.type == SDL_MOUSEBUTTONDOWN){
+                                            if (event.button.button == SDL_BUTTON_LEFT){
+                                                int mouseX, mouseY;
+                                                SDL_GetMouseState(&mouseX, &mouseY);
+                                                std::cout << "Market mouse clicked at X= " << mouseX << ", Y= " << mouseY << std::endl;
+                                                if (mouseY >= 162 && mouseY <= 232){
+                                                    if (mouseX >= 88 && mouseX <= 130){
+                                                        market->sellItems(storage, vegetable, 'W');
+                                                    }
+                                                    else if (mouseX >= 132 && mouseX <= 185){
+                                                        market->sellItems(storage, vegetable, 'R');
+                                                    }
+                                                    else if (mouseX >= 187 && mouseX <= 225){
+                                                        market->sellItems(storage, vegetable, 'C');
+                                                    }
+                                                    else if (mouseX >= 290 && mouseX <= 355){
+                                                        if(market->Purchase(storage, animal, 'E')){
+                                                            deficit = false;
+                                                            Animals* chicken = new Chicken(Renderer);
+                                                            a.push_back(chicken);
+                                                        } else {deficit = true;}
+                                                    }
+                                                    else if (mouseX >= 360 && mouseX <= 430){
+                                                        if(market->Purchase(storage, animal, 'M')){
+                                                            deficit = false;
+                                                            Animals* cow = new Cow(Renderer);
+                                                            a.push_back(cow);
+                                                        } else {deficit = true;}
+                                                    }
+                                                }
+                                                else if (mouseY >= 256 && mouseY <= 320){
+                                                    if (mouseX >= 105 && mouseX <= 155){
+                                                        market->sellItems(storage, animal, 'E');
+                                                    }
+                                                    else if (mouseX >= 155 && mouseX <= 215){
+                                                        market->sellItems(storage, animal, 'M');
+                                                    }
+                                                    else if (mouseX >= 335 && mouseX <= 390){
+                                                        if (market->Purchase(storage, patch, 'P')){
+                                                            deficit = false;
+                                                            land->UnlockPatch();
+                                                        } else {deficit = true;}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    // Render the storage image
+                                    SDL_RenderClear(marketRenderer);
+                                    renderTexture(marketImage, marketRenderer);
+                                    if (deficit){
+                                        SDL_RenderCopy(marketRenderer, MessageTexture, NULL, &MessageRect);
+                                    }
+                                    SDL_RenderPresent(marketRenderer);
+                                }
+                                SDL_DestroyTexture(MessageTexture);
+                            }
+                            SDL_FreeSurface(MessageSurface);
+                        }
+                        TTF_CloseFont(font);
                     }
                     // Cleanup: Free loaded image and renderer
                     SDL_DestroyTexture(marketImage);
@@ -297,6 +333,7 @@ void Game::createMarketWindow(SDL_Window* marketWindow, SDL_Renderer* Renderer, 
         }
     }
 }
+
 //function to handle the entire game logic/game play.
 bool Game::Game_logic(SDL_Event &e, bool quit){
     Farm *farm = new Farm(gRenderer);
