@@ -10,7 +10,7 @@ class Radish:public Vegetables{
 
 
     public:
-    Radish(SDL_Renderer* gRenderer, int x);
+    Radish(SDL_Renderer* gRenderer, int y);
     ~Radish();
     uint32_t timeElapsed();
     void Grow();
