@@ -119,67 +119,75 @@ bool LandPatches::loadMedia(){
     return true;
 }
 
-void LandPatches::createVeg(SDL_Renderer* gRenderer, std::array <Vegetables*, 9> &V, SDL_Rect rect ){
-    Storage items;
-    if (items.getAmount('C') >= 1){
+void LandPatches::createVeg(SDL_Renderer* gRenderer, std::array <Vegetables*, 9> &V, SDL_Rect rect, Storage* store){
+    if (store->getAmount('C') >= 1){
         if (p1 && !plantStatus[0] && rect.x == patch1.x && rect.y == patch1.y){
             plantStatus[0] = true;
             std::cout << "patch 1 planted" << std::endl;
-            Vegetables* c1 = new Carrot(gRenderer, patch1_x);
+            Vegetables* c1 = new Carrot(gRenderer, patch1_y);
             V[0] = c1;
+            store->useMaterial('C');
         }  
         else if (p4 && !plantStatus[3] && rect.x == patch4.x && rect.y == patch4.y){
             plantStatus[3] = true;
-            Vegetables* c4 = new Carrot(gRenderer, patch4_x);
+            Vegetables* c4 = new Carrot(gRenderer, patch4_y);
             std::cout << "patch 4 planted" << std::endl;
             V[3] = c4;
+            store->useMaterial('C');
         }
         else if (p7 && !plantStatus[6] && rect.x == patch7.x && rect.y == patch7.y){
             plantStatus[6] = true;
-            Vegetables* c7 = new Carrot(gRenderer, patch7_x);
+            Vegetables* c7 = new Carrot(gRenderer, patch7_y);
             std::cout << "patch 7 planted" << std::endl;
             V[6] = c7;
+            store->useMaterial('C');
         }
 
     }
-    if (items.getAmount('R') >= 1){
+    if (store->getAmount('R') >= 1){
         if (p2 && !plantStatus[1] && rect.x == patch2.x && rect.y == patch2.y){
             plantStatus[1] = true;
-            Vegetables* c2 = new Radish(gRenderer, patch2_x);
+            Vegetables* c2 = new Radish(gRenderer, patch2_y);
             std::cout << "patch 2 planted" << std::endl;
             V[1] = c2;
+            store->useMaterial('R');
         }
         else if (p5 && !plantStatus[4] && rect.x == patch5.x && rect.y == patch5.y){
             plantStatus[4] = true;
-            Vegetables* c5 = new Radish(gRenderer, patch5_x);
+            Vegetables* c5 = new Radish(gRenderer, patch5_y);
             std::cout << "patch 5 planted" << std::endl;
             V[4] = c5;
+            store->useMaterial('R');
         }
         else if (p8 && !plantStatus[7] && rect.x == patch8.x && rect.y == patch8.y){
             plantStatus[7] = true;
-            Vegetables* c8 = new Radish(gRenderer, patch8_x);
+            Vegetables* c8 = new Radish(gRenderer, patch8_y);
             std::cout << "patch 8 planted" << std::endl;
             V[7] = c8;
+            store->useMaterial('R');
         }
     }    
-    if (items.getAmount('W') >= 1){
+    if (store->getAmount('W') >= 1){
         if (p3 && !plantStatus[2] && rect.x == patch3.x && rect.y == patch3.y){
             plantStatus[2] = true;
-            Vegetables* c3 = new Wheat(gRenderer, patch3_x);
+            Vegetables* c3 = new Wheat(gRenderer, patch3_y);
             std::cout << "patch 3 planted" << std::endl;
             V[2] = c3;
+            store->useMaterial('W');
         }
         else if (p6 && !plantStatus[5] && rect.x == patch6.x && rect.y == patch6.y){
             plantStatus[5] = true;
-            Vegetables* c6 = new Wheat(gRenderer, patch6_x);
+            Vegetables* c6 = new Wheat(gRenderer, patch6_y);
             std::cout << "patch 6 planted" << std::endl;
             V[5] = c6;
+            store->useMaterial('W');
         }
         else if (p9 && !plantStatus[8] && rect.x == patch9.x && rect.y == patch9.y){
             plantStatus[8] = true;
-            Vegetables* c9 = new Wheat(gRenderer, patch9_x);
+            Vegetables* c9 = new Wheat(gRenderer, patch9_y);
             std::cout << "patch 9 planted" << std::endl;
             V[8] = c9;
+            store->useMaterial('W');
         }
     }                                       
     
@@ -198,22 +206,22 @@ void LandPatches::UnlockPatch(){
             p3 = true;
             break;
         case 4:
-            p3 = true;
+            p4 = true;
             break;
         case 5:
-            p3 = true;
+            p5 = true;
             break;
         case 6:
-            p3 = true;
+            p6 = true;
             break;
         case 7:
-            p3 = true;
+            p7 = true;
             break;
         case 8:
-            p3 = true;
+            p8 = true;
             break;
         case 9:
-            p3 = true;
+            p9 = true;
             break;
         default:
             p1 = true;
