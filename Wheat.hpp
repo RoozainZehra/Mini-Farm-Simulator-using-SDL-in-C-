@@ -10,7 +10,7 @@ class Wheat:public Vegetables{
 
 
     public:
-    Wheat(SDL_Renderer* gRenderer, int x);
+    Wheat(SDL_Renderer* gRenderer, int y);
     ~Wheat();
     uint32_t timeElapsed();
     void Grow();
