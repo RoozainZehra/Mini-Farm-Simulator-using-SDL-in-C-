@@ -10,7 +10,7 @@ class Carrot:public Vegetables{
 
 
     public:
-    Carrot(SDL_Renderer* gRenderer, int x);
+    Carrot(SDL_Renderer* gRenderer, int y);
     ~Carrot();
     uint32_t timeElapsed();
     void Grow();
