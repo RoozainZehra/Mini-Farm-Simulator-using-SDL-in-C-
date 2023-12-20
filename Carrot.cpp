@@ -1,12 +1,12 @@
 #include "Carrot.hpp"
 
-Carrot::Carrot( SDL_Renderer* gRenderer, int x){
+Carrot::Carrot( SDL_Renderer* gRenderer, int y){
     int items = (rand() % 2) + 1;
     Vegetables::setVegetables(15000, items, 0);
     TextureManager element(gRenderer);
     Vegetables::Renderer = gRenderer;
     Vegetables::Texture = element.loadTexture("seedsPlanted.png");
-    Vegetables::Rect = {x+10, 426, 30, 30}; 
+    Vegetables::Rect = {186, y+10, 30, 30}; 
 
     current_stage = 1;
     creation_time = SDL_GetTicks();  //time of creation
