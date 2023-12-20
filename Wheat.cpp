@@ -1,12 +1,12 @@
 #include "Wheat.hpp"
 
-Wheat::Wheat( SDL_Renderer* gRenderer, int x){
+Wheat::Wheat( SDL_Renderer* gRenderer, int y){
     int items = (rand()%3) + 1;
     Vegetables::setVegetables(10000, items, 0);
     TextureManager element(gRenderer);
     Vegetables::Renderer = gRenderer;
     Vegetables::Texture = element.loadTexture("seedsPlanted.png");
-    Vegetables::Rect = {x+10, 426, 30, 30}; 
+    Vegetables::Rect = {306, y+10, 30, 30}; 
 
     current_stage = 1;
     creation_time = SDL_GetTicks();  //time of creation
@@ -47,6 +47,5 @@ int Wheat::Harvest(){ //change plot to empty
 bool Wheat::isHarvestable(){
     return harvestStatus;
 }
-
 
 
