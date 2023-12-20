@@ -27,23 +27,23 @@ class LandPatches{
 
     //patches dimensions with positions
     SDL_Rect patch1 = {176,423,56,56};
-    int patch1_x = 176;
+    int patch1_y = 423;
     SDL_Rect patch2 = {236,423,56,56};
-    int patch2_x = 236;
+    int patch2_y = 423;
     SDL_Rect patch3 = {296,423,56,56};
-    int patch3_x = 296;
+    int patch3_y = 423;
     SDL_Rect patch4 = {176,483,56,56};
-    int patch4_x = 176;
+    int patch4_y = 483;
     SDL_Rect patch5 = {236,483,56,56};
-    int patch5_x = 236;
+    int patch5_y = 483;
     SDL_Rect patch6 = {296,483,56,56};
-    int patch6_x = 296;
+    int patch6_y = 483;
     SDL_Rect patch7 = {176,543,56,56};
-    int patch7_x = 176;
+    int patch7_y = 543;
     SDL_Rect patch8 = {236,543,56,56};
-    int patch8_x = 236;
+    int patch8_y = 543;
     SDL_Rect patch9 = {296,543,56,56};
-    int patch9_x = 296;
+    int patch9_y = 543;
 
     //flags to see if the patches are in use
     bool p1 = false;
@@ -72,7 +72,7 @@ class LandPatches{
     ~LandPatches();
     void landRender(SDL_Renderer* gRenderer);
     void patchRender(SDL_Renderer* gRenderer);
-    void createVeg(SDL_Renderer* gRenderer, std::array <Vegetables*, 9> &v, SDL_Rect rect );
+    void createVeg(SDL_Renderer* gRenderer, std::array <Vegetables*, 9> &v, SDL_Rect rect, Storage* store);
     bool loadMedia();
     void getPatches(vector<SDL_Rect> &p);
     bool isPlanted(SDL_Rect rect);
